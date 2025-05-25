@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block content %}
+
+<style>
+  .input-field {
+    width: 100%;
+    padding: 12px 15px;
+    font-size: 1rem;
+    border: 1.8px solid #ddd;
+    border-radius: 10px;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  .input-field:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 8px rgba(59, 130, 246, 0.3);
+  }
+  label {
+    font-weight: 600;
+    margin-bottom: 6px;
+    display: block;
+    color: #444;
+  }
+  .errorlist {
+    color: #e53935;
+    font-size: 0.9rem;
+    margin-top: 4px;
+    margin-bottom: 8px;
+    list-style: none;
+    padding-left: 0;
+  }
+</style>
+
+<div style="
+  max-width: 400px; 
+  margin: 60px auto; 
+  background-color: #f9fafb; 
+  padding: 40px 30px; 
+  border-radius: 12px; 
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1); 
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  ">
+  <h2 style="
+    text-align: center; 
+    color: #222; 
+    margin-bottom: 30px; 
+    font-weight: 700; 
+    font-size: 1.8rem;
+    ">
+    Create an Account
+  </h2>
+
+  <form method="post" novalidate>
+    {% csrf_token %}
+    <div style="
+      display: flex; 
+      flex-direction: column; 
+      gap: 18px;
+      ">
+      {{ form.as_p }}
+    </div>
+    <button type="submit" style="
+      margin-top: 30px; 
+      width: 100%; 
+      padding: 14px; 
+      background-color: #3b82f6; 
+      border: none; 
+      border-radius: 10px; 
+      color: white; 
+      font-size: 17px; 
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    " 
+    onmouseover="this.style.backgroundColor='#2563eb'; this.style.boxShadow='0 6px 18px rgba(37, 99, 235, 0.5)';" 
+    onmouseout="this.style.backgroundColor='#3b82f6'; this.style.boxShadow='0 4px 12px rgba(59, 130, 246, 0.4)';">
+      Sign Up
+    </button>
+  </form>
+</div>
+{% endblock %}

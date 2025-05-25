@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  {{ video.title }}
+{% endblock %}
+
+{% block content %}
+<div style="max-width: 900px; margin: 40px auto; padding: 20px; background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-radius: 8px;">
+  <h2 style="font-size: 2rem; font-weight: 700; color: #222;">{{ video.title }}</h2>
+  <p style="color: #555; margin-bottom: 20px;">By <strong>{{ video.creator.username }}</strong></p>
+
+  <div style="margin-bottom: 20px;">
+    {% if video.video_file %}
+      {% if user.is_authenticated %}
+        {% if user_purchased or video.price == 0 %}
+          <video style="width: 100%; border-radius: 8px;" controls>
+            <source src="{{ video.video_file.url }}" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        {% else %}
+          <div 
+            style="width: 100%; height: 250px; background: #ddd url('{% if video.image %}{{ video.image.url }}{% else %}/static/default_thumb.jpg{% endif %}') center center / cover no-repeat; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #007bff; font-weight: 700; font-size: 1.2rem;"
+            onclick="alert('Please purchase the video first to watch it.')"
+          >
+            ▶ Click to Purchase & Watch
+          </div>
+        {% endif %}
+      {% else %}
+        <div 
+          style="width: 100%; height: 250px; background: #ddd url('{% if video.image %}{{ video.image.url }}{% else %}/static/default_thumb.jpg{% endif %}') center center / cover no-repeat; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #007bff; font-weight: 700; font-size: 1.2rem;"
+          onclick="alert('Please login and purchase the video first to watch it.')"
+        >
+          ▶ Click to Purchase & Watch
+        </div>
+      {% endif %}
+    {% elif video.video_url %}
+      {% if user.is_authenticated %}
+        {% if user_purchased or video.price == 0 %}
+          <iframe 
+            style="width: 100%; height: 450px; border-radius: 8px;" 
+            src="{{ video.video_url }}" 
+            frameborder="0" 
+            allowfullscreen
+            loading="lazy">
+          </iframe>
+        {% else %}
+          <div 
+            style="width: 100%; height: 250px; background: #ddd url('{% if video.image %}{{ video.image.url }}{% else %}/static/default_thumb.jpg{% endif %}') center center / cover no-repeat; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #007bff; font-weight: 700; font-size: 1.2rem;"
+            onclick="alert('Please purchase the video first to watch it.')"
+          >
+            ▶ Click to Purchase & Watch
+          </div>
+        {% endif %}
+      {% else %}
+        <div 
+          style="width: 100%; height: 250px; background: #ddd url('{% if video.image %}{{ video.image.url }}{% else %}/static/default_thumb.jpg{% endif %}') center center / cover no-repeat; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #007bff; font-weight: 700; font-size: 1.2rem;"
+          onclick="alert('Please login and purchase the video first to watch it.')"
+        >
+          ▶ Click to Purchase & Watch
+        </div>
+      {% endif %}
+    {% endif %}
+  </div>
+
+  <p style="font-size: 1.1rem; line-height: 1.6; color: #333; margin-bottom: 15px;">{{ video.description }}</p>
+
+  <p style="font-weight: 600; font-size: 1.2rem; color: #007bff; margin-bottom: 20px;">
+    Price: 
+    {% if video.price > 0 %}
+      ₹{{ video.price }}
+    {% else %}
+      <span style="color: #28a745;">Free</span>
+    {% endif %}
+  </p>
+
+  {# Wallet & Purchase Section #}
+  {% if user.is_authenticated %}
+    <p>Your Wallet Balance: ₹{{ wallet.balance }}</p>
+
+    <form method="post" onsubmit="return confirm('Are you sure you want to buy this video?');">
+      {% csrf_token %}
+      {% if user_purchased or video.price == 0 %}
+        <p style="color: green; font-weight: 700; font-size: 1.1rem;">Access granted. Enjoy your video!</p>
+      {% else %}
+        <button type="submit" class="btn btn-primary">Buy for ₹{{ video.price }}</button>
+      {% endif %}
+    </form>
+  {% else %}
+    <p style="font-size: 1rem;">
+      <a href="{% url 'login' %}" style="color: #007bff; text-decoration: underline;">Login</a> to purchase or watch videos.
+    </p>
+  {% endif %}
+
+  {% for message in messages %}
+    <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}" style="margin-top: 20px;">
+      {{ message }}
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}

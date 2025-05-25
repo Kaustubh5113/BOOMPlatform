@@ -1,0 +1,181 @@
+{% extends 'base.html' %}
+
+{% block title %}Short Videos{% endblock %}
+
+{% block content %}
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    background-color: #000;
+  }
+
+  #shorts-container {
+    height: 100vh;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  #shorts-container::-webkit-scrollbar {
+    display: none;
+  }
+
+  .short-video {
+    scroll-snap-align: start;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+
+  .short-video video {
+    width: 360px;
+    height: 640px;
+    object-fit: cover;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 0 20px rgba(0,0,0,0.6);
+  }
+
+  .video-info {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    text-align: center;
+    text-shadow: 0 1px 4px black;
+  }
+
+  .scroll-btn {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.5);
+    border: none;
+    padding: 10px;
+    border-radius: 50%;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 10;
+  }
+
+  #up-btn { top: 20px; }
+  #down-btn { bottom: 20px; }
+
+  #mute-toggle-btn {
+    position: fixed;
+    bottom: 100px;
+    right: 20px;
+    background: rgba(0,0,0,0.6);
+    border: none;
+    padding: 12px 16px;
+    border-radius: 50%;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 20;
+  }
+</style>
+
+<div id="shorts-container">
+  {% for video in videos %}
+    {% if video.video_type == 'short' %}
+    <div class="short-video">
+      <video
+        class="auto-play-video"
+        src="{{ video.video_file.url }}"
+        muted
+        playsinline
+        preload="metadata"
+        controls
+      ></video>
+      <div class="video-info">
+        <h4 style="margin: 0;">{{ video.title }}</h4>
+        <p style="margin: 5px 0;">By {{ video.creator.username }}</p>
+      </div>
+    </div>
+    {% endif %}
+  {% empty %}
+    <p style="color: white; text-align: center; margin-top: 20px;">No short-form videos available.</p>
+  {% endfor %}
+</div>
+
+<!-- Scroll Buttons -->
+<button id="up-btn" class="scroll-btn" onclick="scrollShorts(-1)">⬆</button>
+<button id="down-btn" class="scroll-btn" onclick="scrollShorts(1)">⬇</button>
+
+<!-- Mute/Unmute Toggle Button -->
+<button id="mute-toggle-btn" title="Toggle sound">🔇</button>
+
+<script>
+  const videos = document.querySelectorAll('.auto-play-video');
+  const shortDivs = document.querySelectorAll('.short-video');
+  const muteToggleBtn = document.getElementById('mute-toggle-btn');
+
+  let currentIndex = 0;
+  let isMuted = true;
+
+  function scrollShorts(direction) {
+    currentIndex += direction;
+    if (currentIndex < 0) currentIndex = 0;
+    if (currentIndex >= shortDivs.length) currentIndex = shortDivs.length - 1;
+    shortDivs[currentIndex].scrollIntoView({ behavior: 'smooth' });
+  }
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      const video = entry.target;
+      if (entry.isIntersecting) {
+        video.muted = isMuted;
+        video.play().catch(() => {});
+      } else {
+        video.pause();
+      }
+    });
+  }, { threshold: 0.9 });
+
+  videos.forEach(video => {
+    observer.observe(video);
+
+    // Pause/play on tap
+    video.addEventListener('click', () => {
+      if (video.paused) {
+        video.play();
+      } else {
+        video.pause();
+      }
+    });
+
+    // Pause when seeking
+    video.addEventListener('seeking', () => {
+      video.pause();
+    });
+
+    // Resume play after seek complete, if in view
+    video.addEventListener('seeked', () => {
+      const isVisible = video.closest('.short-video').getBoundingClientRect().top === 0;
+      if (isVisible) {
+        video.play().catch(() => {});
+      }
+    });
+  });
+
+  // Mute toggle
+  muteToggleBtn.addEventListener('click', () => {
+    isMuted = !isMuted;
+    videos.forEach(video => {
+      video.muted = isMuted;
+    });
+    muteToggleBtn.textContent = isMuted ? '🔇' : '🔊';
+    muteToggleBtn.title = isMuted ? 'Unmute all videos' : 'Mute all videos';
+  });
+</script>
+{% endblock %}

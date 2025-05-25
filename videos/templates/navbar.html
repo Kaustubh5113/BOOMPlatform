@@ -1,0 +1,293 @@
+<!-- videos/templates/videos/navbar.html -->
+<nav
+  class="navbar navbar-expand-lg navbar-light"
+  style="
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 12px 30px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: white;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  "
+>
+  <div
+    class="container-fluid"
+    style="display: flex; align-items: center; justify-content: space-between;"
+  >
+    <a
+      class="navbar-brand"
+      {% comment %} href="{% url 'home' %}" {% endcomment %}
+      style="
+        font-weight: 700;
+        font-size: 1.8rem;
+        color: #007bff !important;
+        user-select: none;
+        transition: color 0.3s ease;
+        margin-right: 30px;
+      "
+      onmouseover="this.style.color='#0056b3'"
+      onmouseout="this.style.color='#007bff'"
+    >
+      BOOM Platform
+    </a>
+
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+      style="
+        border: none;
+        background: transparent;
+        outline: none;
+        cursor: pointer;
+        filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.1));
+        transition: transform 0.3s ease;
+      "
+      onmouseover="this.style.transform='scale(1.1)'"
+      onmouseout="this.style.transform='scale(1)'"
+    >
+      <span
+        class="navbar-toggler-icon"
+        style="
+          filter: none;
+        "
+      ></span>
+    </button>
+
+    <div
+      class="collapse navbar-collapse"
+      id="navbarNav"
+      style="
+        transition: max-height 0.4s ease, opacity 0.4s ease;
+      "
+    >
+      <ul
+        class="navbar-nav me-auto"
+        style="display: flex; gap: 25px; padding-left: 0; margin-bottom: 0; list-style: none;"
+      >
+        <li class="nav-item" style="padding: 0;">
+          <a
+            class="nav-link"
+            href="{% url 'video_list' %}"
+            style="
+              font-weight: 600;
+              color: #007bff !important;
+              padding: 8px 12px;
+              border-radius: 6px;
+              transition: background-color 0.3s ease, color 0.3s ease;
+              user-select: none;
+            "
+            onmouseover="this.style.backgroundColor='#e9f2ff'; this.style.color='#0056b3';"
+            onmouseout="this.style.backgroundColor='transparent'; this.style.color='#007bff';"
+          >
+            Videos
+          </a>
+        </li>
+        <li class="nav-item" style="padding: 0;">
+          <a
+            class="nav-link"
+            href="{% url 'short_videos' %}"
+            style="
+              font-weight: 600;
+              color: #007bff !important;
+              padding: 8px 12px;
+              border-radius: 6px;
+              transition: background-color 0.3s ease, color 0.3s ease;
+              user-select: none;
+            "
+            onmouseover="this.style.backgroundColor='#e9f2ff'; this.style.color='#0056b3';"
+            onmouseout="this.style.backgroundColor='transparent'; this.style.color='#007bff';"
+          >
+            Short Videos
+          </a>
+        </li>
+        <li class="nav-item" style="padding: 0;">
+          <a
+            class="nav-link"
+            href="{% url 'upload_video' %}"
+            style="
+              font-weight: 600;
+              color: #007bff !important;
+              padding: 8px 12px;
+              border-radius: 6px;
+              transition: background-color 0.3s ease, color 0.3s ease;
+              user-select: none;
+            "
+            onmouseover="this.style.backgroundColor='#e9f2ff'; this.style.color='#0056b3';"
+            onmouseout="this.style.backgroundColor='transparent'; this.style.color='#007bff';"
+          >
+            Upload
+          </a>
+        </li>
+        <li class="nav-item" style="padding: 0;">
+  <a
+    class="nav-link"
+    href="{% url 'wallet' %}"
+    style="
+      font-weight: 600;
+      color: #007bff !important;
+      padding: 8px 12px;
+      border-radius: 6px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      user-select: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    "
+    onmouseover="this.style.backgroundColor='#e9f2ff'; this.style.color='#0056b3';"
+    onmouseout="this.style.backgroundColor='transparent'; this.style.color='#007bff';"
+  >
+    <!-- Wallet SVG icon -->
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="18"
+      height="18"
+      fill="currentColor"
+      class="bi bi-wallet2"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path d="M12 1a1 1 0 0 1 1 1v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h9Zm0 1H3a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2Zm-3.5 5a.5.5 0 0 1 0 1H7a.5.5 0 0 1 0-1h1.5Z"/>
+    </svg>
+    Wallet
+</a>
+
+
+      </ul>
+      
+
+      <ul
+        class="navbar-nav ms-auto"
+        style="display: flex; align-items: center; gap: 20px; font-weight: 600; padding-left: 0; margin-bottom: 0; list-style: none;"
+      >
+        {% if user.is_authenticated %}
+        <li class="nav-item dropdown" style="position: relative;">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            id="userDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+            style="
+              color: #007bff !important;
+              user-select: none;
+              transition: color 0.3s ease;
+              cursor: pointer;
+            "
+            onmouseover="this.style.color='#0056b3'"
+            onmouseout="this.style.color='#007bff'"
+          >
+            {{ user.username }}
+          </a>
+          <ul
+            class="dropdown-menu dropdown-menu-end"
+            aria-labelledby="userDropdown"
+            style="
+              min-width: 180px;
+              border-radius: 8px;
+              box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+              background-color: white;
+              padding: 0;
+              margin: 0;
+            "
+          >
+            <li>
+              <a
+                class="dropdown-item"
+                href="{% url 'profile' %}"
+                style="
+                  font-weight: 600;
+                  color: #007bff;
+                  padding: 10px 20px;
+                  border-radius: 6px;
+                  transition: background-color 0.3s ease;
+                  user-select: none;
+                  display: block;
+                  text-decoration: none;
+                "
+                onmouseover="this.style.backgroundColor='#e9f2ff';"
+                onmouseout="this.style.backgroundColor='transparent';"
+              >
+                Profile
+              </a>
+            </li>
+            <li><hr style="margin: 0; border-top: 1px solid #007bff;"></li>
+            <li>
+              <form action="{% url 'logout' %}" method="post" style="margin: 0;">
+                {% csrf_token %}
+                <button
+                  type="submit"
+                  class="dropdown-item"
+                  style="
+                    background: none;
+                    border: none;
+                    padding: 10px 20px;
+                    width: 100%;
+                    text-align: left;
+                    font-weight: 600;
+                    color: #dc3545;
+                    cursor: pointer;
+                    user-select: none;
+                    border-radius: 6px;
+                    transition: background-color 0.3s ease;
+                  "
+                  onmouseover="this.style.backgroundColor='#f8d7da';"
+                  onmouseout="this.style.backgroundColor='transparent';"
+                >
+                  Logout
+                </button>
+              </form>
+            </li>
+          </ul>
+        </li>
+        {% else %}
+        <li class="nav-item" style="padding: 0;">
+          <a
+            class="nav-link"
+            href="{% url 'login' %}"
+            style="
+              font-weight: 600;
+              color: #007bff !important;
+              user-select: none;
+              transition: color 0.3s ease;
+              padding: 8px 12px;
+              border-radius: 6px;
+              display: inline-block;
+            "
+            onmouseover="this.style.backgroundColor='#e9f2ff'; this.style.color='#0056b3';"
+            onmouseout="this.style.backgroundColor='transparent'; this.style.color='#007bff';"
+          >
+            Login
+          </a>
+        </li>
+        <li class="nav-item" style="padding: 0;">
+          <a
+            class="nav-link"
+            href="{% url 'signup' %}"
+            style="
+              font-weight: 600;
+              color: #007bff !important;
+              user-select: none;
+              transition: color 0.3s ease;
+              padding: 8px 12px;
+              border-radius: 6px;
+              display: inline-block;
+            "
+            onmouseover="this.style.backgroundColor='#e9f2ff'; this.style.color='#0056b3';"
+            onmouseout="this.style.backgroundColor='transparent'; this.style.color='#007bff';"
+          >
+            Sign Up
+          </a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<!-- Welcome Section -->
+<div style="text-align: center; padding: 60px 20px 40px; background: linear-gradient(135deg, #007bff, #00c6ff); color: white;">
+  <h1 style="font-size: 3rem; margin-bottom: 20px;">Welcome to VideoPlatform</h1>
+  <p style="font-size: 1.2rem; max-width: 800px; margin: 0 auto;">
+    VideoPlatform is a modern and intuitive video streaming marketplace where creators can upload and sell their content, and users can explore and enjoy high-quality videos across genres. Inspired by popular platforms like YouTube and Vimeo, we bring simplicity and performance together in one place.
+  </p>
+</div>
+
+<!-- Video Gallery -->
+<div style="padding: 50px 20px;">
+  <h2 style="text-align: center; font-size: 2.2rem; margin-bottom: 30px; color: #333;">Latest Videos</h2>
+  <div class="row" style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
+    {% for video in videos %}
+    <div class="col-md-4" style="flex: 1 1 300px; max-width: 320px;">
+      <div class="card" style="border: 1px solid #ddd; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.07); transition: transform 0.2s ease;">
+        <img src="{{ video.thumbnail_url|default:'/static/default_thumb.jpg' }}" alt="{{ video.title }}" style="width: 100%; height: 180px; object-fit: cover;">
+        <div class="card-body" style="padding: 15px;">
+          <h5 style="font-size: 18px; margin-bottom: 8px; color: #222;">{{ video.title }}</h5>
+          <p style="margin-bottom: 12px; color: #555;">By {{ video.creator.username }}</p>
+          <a href="{% url 'video_detail' video.id %}" class="btn btn-primary" style="background-color: #007bff; color: #fff; padding: 10px 15px; border: none; border-radius: 8px; text-decoration: none; display: inline-block;">Watch</a>
+        </div>
+        
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
