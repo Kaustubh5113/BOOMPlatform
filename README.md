@@ -26,6 +26,8 @@ Google Drive : https://drive.google.com/file/d/1YmrRZ4zeqNFU3wcOVx98ntbqK48cvRER
 
 1. Clone the repository:
 
+   git clone https://github.com/Kaustubh5113/vidstream.git
+
 
 2 Install dependencies:
 
