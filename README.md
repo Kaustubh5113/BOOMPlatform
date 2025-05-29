@@ -1,6 +1,6 @@
 #vidstream
 
-BOOMPlatform is a modern, user-friendly video streaming and sharing platform designed to provide seamless video content experience.  
+ vidstream is a modern, user-friendly video streaming and sharing platform designed to provide seamless video content experience.  
 It supports video uploads, comments, user authentication, and interactive features to engage users.
 
 ---
