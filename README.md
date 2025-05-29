@@ -27,11 +27,51 @@ Google Drive : https://drive.google.com/file/d/1YmrRZ4zeqNFU3wcOVx98ntbqK48cvRER
 1. Clone the repository:
 
 
-Install dependencies:
+2 Install dependencies:
 
-bash
-Copy
-Edit
+## 🚀 Setting Up Django Virtual Environment
+
+Follow the steps below to set up a virtual environment and install Django for your project.
+
+### 1️⃣ Navigate to Your Project Directory
+```bash
+cd path/to/your/project
+
+2️⃣ Create a Virtual Environment
+
+python -m venv env
+
+This will create a folder named env containing your isolated Python environment.
+
+3️⃣ Activate the Virtual Environment
+
+🔹 On Windows:
+
+.\env\Scripts\activate
+
+🔹 On macOS/Linux:
+
+source env/bin/activate
+
+4️⃣ Install Django
+
+pip install django
+
+5️⃣ Verify Django Installation
+
+django-admin --version
+
+You’re all set! 🎉 Now you can start building your Django project.
+
+
+---
+
+💡 Tip: To deactivate the virtual environment, just run:
+
+
+    deactivate
+
+
 # Example for Python/Django
 pip install -r requirements.txt
 Set up environment variables and database as required.
@@ -39,9 +79,8 @@ Set up environment variables and database as required.
 Run the development server:
 
 bash
-Copy
-Edit
 python manage.py runserver
+
 Open your browser at http://localhost:8000
 
 Usage
